@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.json());
 // app.use(express.static(path.join(__dirname,'../../../public')));
-// app.use(express.static('/'));
+app.use(express.static('/'));
 
 //サーバーの立ち上げ
 app.listen(port, () => {
@@ -29,9 +29,9 @@ mongoose.connect(process.env.mongoURL, {
     .then(() => { console.log("接続成功"); });
 
 
-app.get('/',(req,res)=>{
-    res.send('/index.html');
-});
+// app.get('/',(req,res)=>{
+//     res.send('/index.html');
+// });
 // ユーザが入力した値は、１つ且つjson形式で送られてきている想定（複数ワードの検索をしたい場合は、拡張する必要あり）
 app.post('/search', (req, res) => {
 
