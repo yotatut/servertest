@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const itemModel = require('./models/itemSchema');
+const itemModel = require('./src/models/itemSchema');
 // const displayZaiko = require('./display');
-const escapeString=require('./escapeString');
-const port = 3000;
+const escapeString = require('./src/escapeString');
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(express.json());
@@ -17,7 +17,7 @@ app.use(express.static('../../../public'));
 mongoose.connect(process.env.mongoURL, {
     maxPoolSize: 10
 })
-    .then(() => { console.log("接続成功");});
+    .then(() => { console.log("接続成功"); });
 
 // ユーザが入力した値は、１つ且つjson形式で送られてきている想定（複数ワードの検索をしたい場合は、拡張する必要あり）
 app.post('/search', (req, res) => {
@@ -61,7 +61,7 @@ app.post('/search', (req, res) => {
             // MongoDBサーバーとの接続を閉じる
             // mongoose.connection.close();
         });
-        
+
 
 });
 
