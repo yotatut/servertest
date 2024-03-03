@@ -1,3 +1,4 @@
 node_modules/
 .env
 src/insertInfo_copy.js
+inputJSONindex.html

@@ -1,0 +1,29 @@
+.field-right{
+    padding-left: 30%;
+    background-color: #f0f0f0;
+    width:max-content;
+    border:#ffffff 2px solid;
+    border-radius: 10px;
+}
+.searchResult {
+    width: 400px;
+}
+.resultDisplay {
+    position: relative;
+    top: 80px;
+    width: auto;
+    height: 300px;
+    overflow: scroll;
+    background-color: #ffffff;
+    border: #f0f0f0 4px solid;
+}
+
+.searchButton {
+    position: relative;
+    top: 20px;
+    margin-left: 60%;
+    width: 120px;
+    height: 60px;
+    padding: 0.5em;
+
+}

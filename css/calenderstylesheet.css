@@ -1,0 +1,46 @@
+
+
+/*labelタグ*/
+.date-edit {
+  position: relative;
+}
+
+/*ボタン部分*/
+.date-edit::before {
+  background:  url(../../img/now.png) no-repeat center center / cover #F7D94C;
+    border: solid 5px #cdcdcd;
+    content: "";
+    position: absolute;
+    top: -15px;
+    right: -65px;
+    border-radius: 28px;
+    height: 50px;
+    width: 50px;
+}
+
+/*ボックス部分*/
+input[type="date"] {
+  padding: 10px;
+  text-align: center;
+}
+
+input[type="date"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+}
+input[type="date"]::-webkit-clear-button{
+    -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator{
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 0;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  height: 50px;
+  width: 180px;
+}
