@@ -34,7 +34,7 @@ const port = 3000;
 
 
 // MongoDBに接続
-mongoose.connect("mongodb+srv://shincode:NQo543hxaXbdGIqf@cluster0.rh3akjq.mongodb.net/warehouseManagement?retryWrites=true&w=majority")
+mongoose.connect(process.env.mongoURL)
     .then(() => { console.log("接続成功") });
 
 
