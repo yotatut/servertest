@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const itemModel = require('./src/models/itemSchema');
+const itemModel = require('./models/itemSchema');
 // const displayZaiko = require('./display');
-const escapeString = require('./src/escapeString');
+const escapeString = require('./escapeString');
 const port = process.env.PORT || 3000;
 
 
@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.json());
 // app.use(express.static(path.join(__dirname,'../../../public')));
-// app.use(express.static('public'));
+app.use(express.static('/'));
 
 //サーバーの立ち上げ
 app.listen(port, () => {
@@ -30,7 +30,7 @@ mongoose.connect(process.env.mongoURL, {
 
 
 app.get('/',(req,res)=>{
-    res.send('./index.html');
+    res.send("hello");
 });
 // ユーザが入力した値は、１つ且つjson形式で送られてきている想定（複数ワードの検索をしたい場合は、拡張する必要あり）
 app.post('/search', (req, res) => {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "zaiko.js"
+    "start": "node src/zaiko.js"
   },
   "keywords": [],
   "author": "",
