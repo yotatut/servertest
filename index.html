@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>入出庫登録</title>
+
+
+  <link rel="stylesheet" href="front/src/css/commonstylesheet.css">
+  <link rel="stylesheet" href="front/src/css/nyusyukkostylesheet.css">
+
+</head>
+
+<body>
+
+
+  <h2 class="heading">入出庫登録</h2>
+  <table id="myTable" class="registrationForm">
+
+    <!-- 日付 -->
+    <tr>
+      <td class="rounded-box-attribute">
+        日付　　　　&gt;
+      </td>
+      <td id="nowDate" class="nowDate">
+        <!-- <span id="nowDate" class="insertValue nowDate"></span> -->
+        <!--<input type="date" id="nowDate">-->
+      </td>
+    </tr>
+
+    <!-- 入出庫 -->
+    <tr>
+      <td class="rounded-box-attribute">
+        区分　　　　&gt;
+      </td>
+      <td>
+        <span class="insertValue">
+          <!-- ラジオボタン -->
+          <form id="myForm" class="rounded-box-field">
+            <label class="molding">
+              <input type="radio" name="io_flag" value="1" checked> 入庫
+            </label>
+
+            <label class="molding">
+              <input type="radio" name="io_flag" value="2">出庫
+            </label>
+          </form>
+        </span>
+        <!--<script>
+            // ラジオボタンが選択されたときの処理を追加する場合
+            var radioButtons = document.querySelectorAll('input[type="radio"]');
+            
+            radioButtons.forEach(function(radioButton) {
+              radioButton.addEventListener('change', function() {
+                console.log('選択された値:', this.value);
+              });
+            });
+        </script> -->
+      </td>
+    </tr>
+
+    <!-- Barcodeと商品名 -->
+    <tr>
+      <td id="rounded-box-main" class="rounded-box-attribute">
+        Barcode　&nbsp;<span class="text-right">&gt;</span>
+        <a href="front/production/barcodeScan.html" class="scanner">Go to Scan</a>
+      </td>
+      <td id="receivedBarcode" class="receivedBarcode"></td>
+    </tr>
+
+    <!-- 数量 -->
+    <tr>
+      <td class="rounded-box-attribute">
+        数量　　　　&gt;
+      </td>
+      <td>
+        <span class="insertValue">
+          <input type="text" class="amount" name="amount" value="ここに数量を入力">
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <button type="submit" class="insertButton button" onclick="" value="">🖊登録</button><!--mongo_insert()-->
+  <!--<input type="hidden" name="delete_id" value="test">-->
+  <script src="front/src/utils/getCurrentDate.js"></script>
+  <script src="front/src/utils/getQueryParam.js"></script>
+  <script src="front/src/utils/getSelectedRadioButton.js"></script>
+  <script src="front/src/utils/getSelectedRadioButton.js"></script>
+</body>
+
+</html>
+
+<button onclick="tableToJson()">Convert to JSON</button>
+
+<script>
+
+  function tableToJson() {
+    const table = document.getElementById('myTable');
+    const rows = table.getElementsByTagName('tr');
+    const data = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      // const nameCells = row.querySelectorAll('.insertKey');//キー
+      const dataCells = row.querySelectorAll('.insertValue');//バリュー
+      const rowData = {};
+
+      for (let j = 0; j < dataCells.length; j++) {
+        const cell = dataCells[j];
+        console.log(cell);
+        const input = cell.querySelector('input');
+        // console.log("input",input);
+        const spanName = cell.getAttribute('name');
+        // console.log("span",spanName);
+        const textContent = cell.textContent.trim();
+        // console.log("text",textContent);
+
+        // const insertKey=cell.name;
+        // console.log(insertKey);
+
+
+        // const inr=parseInt(getSelectedRadioButton(),10);
+
+        // if(inr){
+        //   console.log(typeof inr,10);
+        // }
+        // ;
+
+        // if (getSelectedRadioButton()){
+        //   console.log("success");
+        // }
+
+
+        //html要素の属性で{name:value}作成
+        if (input) {
+          if (getSelectedRadioButton()) {
+            rowData[input.name] = getSelectedRadioButton();
+          } else {
+            rowData[input.name] = input.value;
+          }
+          //rowData[input.name]=input.value?input.value:getSelectedRadioButton();
+        } else if (spanName) {
+          rowData[spanName] = textContent;
+        } else {
+          rowData[textContent.name] = textContent;
+        }
+      }
+
+      data.push(rowData);
+    }
+    console.log(JSON.stringify(data, null, 2));
+
+    // JSON形式のオブジェクトをJSON文字列に変換
+    // var jsonString = JSON.stringify(jsonData, null, 2);
+
+    fetch('/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+
+    // JSON文字列をコンソールに表示
+    // console.log(jsonString);
+
+  }
+
+</script>
+
+</body>
+
+</html>

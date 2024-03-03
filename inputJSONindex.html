@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>入出庫登録</title>
+
+
+  <link rel="stylesheet" href="front/src/css/commonstylesheet.css">
+  <link rel="stylesheet" href="front/src/css/nyusyukkostylesheet.css">
+
+</head>
+
+<body>
+
+
+  <h2 class="heading">入出庫登録</h2>
+  <table id="myTable" class="registrationForm">
+
+    <tr>
+      <td class="rounded-box-attribute">
+        日付　　　　&gt;
+      </td>
+      <td name="insertMongo" class="nowDate" id="nowDate">
+        <!--<input type="date" id="nowDate">-->
+      </td>
+    </tr>
+    <tr>
+      <td class="rounded-box-attribute">
+        区分　　　　&gt;
+      </td>
+      <td>
+
+        <!-- ラジオボタン -->
+        <form name="insertMongo" id="myForm" class="rounded-box-field">
+          <label class="molding">
+            <input type="radio" name="flag" value=1> 入庫
+          </label>
+
+          <label class="molding">
+            <input type="radio" name="flag" value=2>出庫
+          </label>
+        </form>
+        <!--<script>
+            // ラジオボタンが選択されたときの処理を追加する場合
+            var radioButtons = document.querySelectorAll('input[type="radio"]');
+            
+            radioButtons.forEach(function(radioButton) {
+              radioButton.addEventListener('change', function() {
+                console.log('選択された値:', this.value);
+              });
+            });
+        </script> -->
+      </td>
+    </tr>
+
+    <tr>
+      <td class="rounded-box-attribute" id="rounded-box-main">
+        Barcode　&nbsp;<span class="text-right">&gt;</span>
+        <a class="scanner" href="front/production/barcodeScan.html">Go to Scan</a>
+      </td>
+      <td class="receivedBarcode" id="receivedBarcode"></td>
+    </tr>
+    <tr>
+      <td class="rounded-box-attribute">
+        数量　　　　&gt;
+      </td>
+      <td>
+        <input class="amount" type="text" name="insertMongo" value="ここに数量を入力">
+      </td>
+    </tr>
+  </table>
+
+  <button type="submit" class="insertButton button" onclick="" value="">🖊登録</button><!--mongo_insert()-->
+  <!--<input type="hidden" name="delete_id" value="test">-->
+  <script src="front/src/utils/getCurrentDate.js"></script>
+  <script src="front/src/utils/getQueryParam.js"></script>
+  <script src="front/src/utils/getSelectedRadioButton.js"></script>
+</body>
+
+</html>
+
+<button type="button" onclick="tableValuesToJSON()">Convert to JSON</button>
+
+<script>
+  function tableValuesToJSON() {
+    // table要素を取得
+    var table = document.getElementById('myTable');
+
+    // コンソールログで取得した要素が正しいか確認
+    console.log('Table Element:', table);
+
+    // JSON形式に変換するためのオブジェクトを初期化
+    var jsonData = [];
+
+    // 各行ごとに処理
+    for (var i = 0; i < table.rows.length; i++) {
+      var row = table.rows[i];
+
+      // 各セルごとに処理
+      for (var j = 0; j < row.cells.length; j++) {
+        var cell = row.cells[j];
+
+        // input要素を取得
+        var input = cell.getElementsByName('insertMongo');
+
+        // input要素がある場合、そのvalueを取得し、JSON形式のオブジェクトに追加
+        if (input) {
+          var value = input.value;
+          jsonData.push({ row: i, column: j, value: value });
+        }
+      }
+    }
+
+    // JSON形式のオブジェクトをJSON文字列に変換
+    // var jsonString = JSON.stringify(jsonData, null, 2);
+
+    fetch('/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jsonData)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+
+    // JSON文字列をコンソールに表示
+    // console.log(jsonString);
+
+    // ここでJSON文字列を表示するなどの処理を追加しても良い
+  }
+</script>
+
+</body>
+
+</html>
