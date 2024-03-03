@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded",function(){
         var myVariable = result.codeResult.code;
 
         // クエリパラメータを含んだURLを生成
-        var nextPageUrl = 'nyusyukko.html?data=' + encodeURIComponent(myVariable);
+        var nextPageUrl = './index.html?data=' + encodeURIComponent(myVariable);
       
         Quagga.stop();
         // 別のページにリダイレクト
