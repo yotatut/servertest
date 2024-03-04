@@ -1,26 +1,27 @@
-
-function displayZaiko(result){ 
-
-
-    var divGetElement = document.getElementById("resultDisplay");
-    var divElement = document.createElement('div');
-    divElement.className = "resultDisplay";
+// const exportToCSV=require('src/exportToCSV');
+async function displayZaiko(result) {
+    let parent = document.getElementById("resultDisplay");
+    let divOld = document.getElementById("childResult");
+    // let divNew = document.getElementById("resultDisplay");
+    let divNew = document.createElement('div');
+    divNew.id = "childResult";
+    divNew.className = "resultDisplay";
 
     // テーブルを作成
-    var tableElement = document.createElement('table');
+    let tableElement = document.createElement('table');
     // 行を作成
-    var rowElement = document.createElement('tr');
+    let rowElement = document.createElement('tr');
     // セル1を作成
-    var cellElement1 = document.createElement('td');
+    let cellElement1 = document.createElement('td');
     cellElement1.className = 'text-center rounded-box-attribute';
 
     /*属性（Barcode<br>商品名）を生成 */
     // テキストノード(Barcode)を作成
-    var textItemBarcode = document.createTextNode("Barcode");
+    let textItemBarcode = document.createTextNode("Barcode");
     // ブレーク要素を作成
-    var brElement = document.createElement('br');
+    let brElement = document.createElement('br');
     // テキストノード(商品名)を作成
-    var textItemName = document.createTextNode("商品名");
+    let textItemName = document.createTextNode("商品名");
     // span要素、ブレーク要素、テキストノードをセル1に追加
     cellElement1.appendChild(textItemBarcode);
     cellElement1.appendChild(brElement);
@@ -28,7 +29,7 @@ function displayZaiko(result){
 
     /*属性（在庫数量）を生成 */
     // セル2を作成
-    var cellElement2 = document.createElement('td');
+    let cellElement2 = document.createElement('td');
     cellElement2.className = 'text-center rounded-box-attribute';
     cellElement2.textContent = "在庫数量";
 
@@ -41,9 +42,7 @@ function displayZaiko(result){
 
 
     //取得したデータを表示
-    for(const data of result){
-
-
+    for (const data of result) {
         // 行を作成
         rowElement = document.createElement('tr');
 
@@ -60,7 +59,7 @@ function displayZaiko(result){
         brElement = document.createElement('br');
 
         // テキストノードを作成
-        var textNode = document.createTextNode(data['name']);
+        let textNode = document.createTextNode(data['name']);
 
         // span要素、ブレーク要素、テキストノードをセル1に追加
         cellElement1.appendChild(spanElement);
@@ -82,18 +81,28 @@ function displayZaiko(result){
 
 
     }
-    divElement.appendChild(tableElement);
+    divNew.appendChild(tableElement);
+    parent.appendChild(divNew);
+    // console.log(typeof divNew);
+    parent.replaceChild(divNew, divOld);
 
 
-    divGetElement.appendChild(divElement);
 
+    let pareCSV = document.getElementById('exportToCSV');//csv出力親要素
+    let csvOld = document.getElementById('downloadLink');
+    let csvNew = document.createElement('a');
+    // csvNew.href = 'src/exportToCSV.js';
+    csvNew.id = 'downloadLink';
+    csvNew.className = 'exportToCSV';
+    csvNew.target = '_blank';
+    csvNew.textContent = 'CSV出力';
+    pareCSV.appendChild(csvNew);
+    pareCSV.replaceChild(csvNew, csvOld);
 
-    // var divGetElement2 = document.getElementById("exportToCSV");
-    // var aElement=document.createElement("a");
-    // //aElement.id="downloadLink";
-    // aElement.href="front/src/utils/exportToCSV.js";
-    // aElement.textContent="CSV出力";
-    // divGetElement2.appendChild(aElement);
+    return result;
+    // await exportToCSV("");
+    // <button type="button" id="searchButton" class="searchButton button" value="" onclick="searchZaiko()">🔍検索</button>
+    // await exportToCSV(result);
     //document.body.innerHTML='<script src="./src/utils/exportToCSV.js"></script>';
 
 }

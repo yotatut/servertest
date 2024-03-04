@@ -29,7 +29,7 @@
       <!-- 検索文字列入力 -->
       <td>
         <form>
-          <input type="text" id="word" class="rounded-box-field" name="name" value="ここに検索ワードを入力">
+          <input type="text" id="word" class="rounded-box-field" name="name" placeholder="ここに文字を入力">
         </form>
       </td>
     </tr>
@@ -40,26 +40,31 @@
 
   <!--検索結果表示用-->
   <div id="resultDisplay">
+    <div id="childResult">
 
+    </div>
   </div>
 
   <!--csv出力リンク用-->
   <div id="exportToCSV">
+    <a id="downloadLink">
 
+    </a>
   </div>
 
 
   <script src="src/display.js"></script>
+  <script src="src/exportToCSV.js"></script>
   <script>
     function searchZaiko() {
       const word = document.getElementById('word');
       const data = [];
       const rowData = {};
-      rowData[word.name]=word.value;
+      rowData[word.name] = word.value;
       data.push(rowData);
       // console.log(JSON.stringify(data, null, 2));
       // console.log(data);
-      
+
       //検索値（ユーザ入力項目）を配列（各要素はJSON形式）でPOST
       fetch('/search', {
         method: 'POST',
@@ -68,11 +73,20 @@
         },
         body: JSON.stringify(data)
       })
-        .then(response => response.json())
-        .then(dataArray => {
-          displayZaiko(dataArray);//検索結果を画面に生成表示する
+        .then(response => response.json())//JSON形式のレスポンス
+        .then(data => {
+          if (Array.isArray(data)) {
+            displayZaiko(data)
+            .then((data)=>{exportToCSV(data);});//検索結果を画面に生成表示する
+
+          } else {
+            alert(data);
+          }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+          alert('入力エラーです');
+          console.error('Error:', error)
+        });
     }
   </script>
 </body>

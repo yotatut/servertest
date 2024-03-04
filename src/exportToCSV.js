@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+function exportToCSV(result) {
   // JSONデータ
   const jsonData = [
     { "code": "4901777375345", "name": "伊右衛門焙じ茶600ml", "amount": 4 },
@@ -9,10 +9,28 @@ document.addEventListener('DOMContentLoaded', function () {
     // ... 他のデータ
   ];
 
+  // const excludeKeys = ['name', 'age'];
+  // const keysToInclude = Object.keys(result[0]).filter(key => !excludeKeys.includes(key));
+  // const resultString = keysToInclude.join(',');//複数キー除外ヘッダー
+  // const resultStrings = result.map(obj => {
+  // const newObj = { ...obj };
+  // excludeKeys.forEach(key => delete newObj[key]);
+  // return Object.values(newObj).join(',');
+  // });//複数キー除外value
+
+
+  // console.log(resultString);
+
   // JSONデータをCSVに変換する関数
-  function convertJSONtoCSV(jsonData) {
-    const header = Object.keys(jsonData[0]).join(','); // CSVヘッダー
-    const rows = jsonData.map(obj => Object.values(obj).join(',')); // データ行
+  function convertJSONtoCSV(result) {
+    const excludeKeys = '_id';
+    const header = Object.keys(result[0]).filter(key => key !== excludeKeys).join(','); // CSVヘッダー
+
+    const rows = result.map(obj => {
+      const newObj = { ...obj };
+      delete newObj[excludeKeys];
+      return Object.values(newObj).join(',');
+    }); // データ行
     return `${header}\n${rows.join('\n')}`;
   }
 
@@ -23,11 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const url = window.URL.createObjectURL(blob);
     const downloadLink = document.getElementById('downloadLink');
     downloadLink.href = url;
+    // downloadLink.href = url,result.name;
     downloadLink.download = 'output.csv';
     downloadLink.style.display = 'block'; // リンクを表示
   }
 
   // JSONデータをCSVに変換してダウンロード
-  const csvData = convertJSONtoCSV(jsonData);
+  const csvData = convertJSONtoCSV(result);
   downloadCSV(csvData);
-},);
+};
+
+// module.exports = exportToCSV;
