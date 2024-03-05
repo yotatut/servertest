@@ -5,9 +5,15 @@ const mongoose = require('mongoose');
 const itemIOSchema = new mongoose.Schema({
     io_date: { type: Date },   //時刻まで必要か
     io_flag: { type: String },
-    code: { type: String },
+    code: {
+        type: String,
+        required: true
+    },
     name: { type: String },
-    amount: { type: Number },
+    amount: {
+        type: Number,
+        required: true
+    },
 });
 
 //商品情報格納コレクション用スキーマ
@@ -20,7 +26,7 @@ const itemInfoSchema = new mongoose.Schema({
     update_at: { type: Date },
 });
 
-const ioModel = mongoose.model('itemIOModel', itemIOSchema, 'items_io' );
-const infoModel = mongoose.model('itemInfoModel', itemInfoSchema,'items_info');
+const ioModel = mongoose.model('itemIOModel', itemIOSchema, 'items_io');
+const infoModel = mongoose.model('itemInfoModel', itemInfoSchema, 'items_info');
 
 module.exports = { ioModel, infoModel };
