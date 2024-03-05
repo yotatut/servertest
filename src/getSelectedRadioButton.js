@@ -1,6 +1,6 @@
 function getSelectedRadioButton() {
     // フォーム要素を取得
-    const form = document.getElementById('myForm');
+    const form = document.getElementById('ioForm');
   
     // フォーム内のラジオボタン要素を取得
     const radioButtons = form.elements['io_flag'];

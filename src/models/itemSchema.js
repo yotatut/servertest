@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 //要件が明確になったら、後々各フィールドに対する制約を付ける。
 const itemIOSchema = new mongoose.Schema({
     io_date: { type: Date },   //時刻まで必要か
-    io_flag: { type: Number },
+    io_flag: { type: String },
     code: { type: String },
     name: { type: String },
     amount: { type: Number },

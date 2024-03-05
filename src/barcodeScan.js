@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded",function(){
+window.addEventListener("DOMContentLoaded",()=>{
     // QuaggaJS設定
     Quagga.init({
         inputStream: {
@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded",function(){
         var myVariable = result.codeResult.code;
 
         // クエリパラメータを含んだURLを生成
-        var nextPageUrl = './index.html?data=' + encodeURIComponent(myVariable);
+        var nextPageUrl = './?data=' + encodeURIComponent(myVariable);
       
         Quagga.stop();
         // 別のページにリダイレクト
