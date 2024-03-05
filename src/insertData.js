@@ -19,7 +19,7 @@ const insertData = (res, Model, jsonData) => {
             res.send('データの登録が成功しました');
         })
         .catch(err => {
-            res.send('データの登録が失敗しました。入力項目に誤りがあります。');
+            res.send('データの登録が失敗しました。入力項目に誤り・不足があります。');
             console.log('データ挿入失敗：', err);
             // エラーハンドリング
         }).finally(() => {
