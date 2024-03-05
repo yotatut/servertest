@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const itemModel = require('./models/itemSchema');
 const searchData = require('./searchData');
 const insertData = require('./insertData');
-// const displayZaiko = require('./display');
 const escapeString = require('./escapeString');
 const port = process.env.PORT || 3000;
 
@@ -52,7 +51,6 @@ app.post('/submit', (req, res) => {
       jsonArray = { ...jsonArray, ...data };//スプレッド構文Object.assign(a, b);と似てる（たぶん同じ？）
     }
     // console.log(jsonArray);
-    // const code=jsonArray.code;
     insertData(res,itemModel.ioModel,jsonArray);
     // console.log('Received form data:', dataList);
     // res.json({ message: 'Data received successfully!' });
